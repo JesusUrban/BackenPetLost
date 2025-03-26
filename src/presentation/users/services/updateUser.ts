@@ -10,6 +10,8 @@ export class UpdateUserService {
    
     user.name = userData.name;
      user.email = userData.email;
+     user.password = userData.password;
+     
      
 
      try {

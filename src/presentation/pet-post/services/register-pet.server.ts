@@ -29,7 +29,7 @@ export class RegisterPets {
      }
      
        return{
-            Message: "User Registered successfully",
+            Message: "Post Created  successfully",
         petData,
     }
 }

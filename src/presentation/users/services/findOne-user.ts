@@ -3,7 +3,7 @@ import { User } from "../../../data/postgress/models/user.model"
 export class FindOneUserService {
     async execute(userId: string){
       const user= await User.findOne({
-            select: ['id', 'name', 'email', 'status', 'role'],
+            select: ['id', 'name','password' ,'email', 'status', 'role'],
             where: {
                 id: userId,
                 status: true

@@ -71,7 +71,7 @@ register =(req:Request, res:Response) =>{
 
 approve = (req:Request, res: Response) =>{
    const {userId} = req.params;
-   console.log("fjaslkfjas"+userId)
+  
  this.approvePost.execute( userId, req.body)
 .then((user) => res.status(200).json(user))
 .catch(err => res.status(500).json({message: err.message})) 

@@ -16,7 +16,7 @@ export class UpdatePetService {
 
      try {
          await pet.save();
-         const message: string=`User with id ${petId} was updated `;
+         const message: string=`Post with id ${petId} was updated `;
          return{
             message:  message
          }

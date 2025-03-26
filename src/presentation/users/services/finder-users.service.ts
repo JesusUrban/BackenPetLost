@@ -5,7 +5,7 @@ export class FinderUsers {
     async execute(){
        try {
         return await User.find({
-           select:['id', 'name','email','status', 'role'],
+           select:['id', 'name','password','email','status', 'role'],
           
            where: {
                 status: true,
