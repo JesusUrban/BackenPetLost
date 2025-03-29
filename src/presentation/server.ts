@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-
+import cookieParser from "cookie-parser";
 /**
  * 
  * Interface representing the ports and the routes
@@ -38,7 +38,12 @@ export class Server {
     async start(){
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
-      
+        
+        //midleware to get access to the cookies
+        //You have to install npm cookie-parser
+        this.app.use(cookieParser());
+
+
         this.app.use(this.routes)
 
         this.app.listen(this.port, () => {

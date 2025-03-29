@@ -7,6 +7,8 @@ import { UpdatePetService } from "./services/updateUser";
 import { DeletePetService } from "./services/delete";
 import { Approve } from "./services/approve";
 import { Reject } from "./services/reject";
+import { AuthMiddleware } from "../common/middlewares/auth.middleware";
+import { UserRole } from "../../data/postgress/models/user.model";
 
 
 
@@ -29,17 +31,22 @@ export class PetRoutes{
         const controller = new UserController(registerPet,finderPets,findOnePet, updatePet,deletePet,rejectPost,approvePost);
         
      
+
+
+          //To get access to the cookes we need to install cookie-parser
+              router.use(AuthMiddleware.protect)
+
     router.get("/", controller.findAll);
     router.get('/:id', controller.findOne)
 
     
-    router.post("/", controller.register);
+    router.post("/", AuthMiddleware.restrictTo(UserRole.ADMIN),controller.register);
 
     
-    router.delete('/:id', controller.delete)
+    router.delete('/:id', AuthMiddleware.restrictTo(UserRole.ADMIN, UserRole.PER_OWNER),controller.delete)
 
     
-    router.patch('/:id', controller.update)
+    router.patch('/:id',AuthMiddleware.restrictTo(UserRole.ADMIN, UserRole.PER_OWNER), controller.update)
      
 
     router.patch('/:id/approve', controller.approve)

@@ -6,6 +6,8 @@ import { FindOneUserService } from "./services/findOne-user";
 import { UpdateUserService } from "./services/updateUser";
 import { DeleteUserService } from "./services/delete";
 import { Login } from "./services/login";
+import { AuthMiddleware } from "../common/middlewares/auth.middleware";
+import { UserRole } from "../../data/postgress/models/user.model";
 
 
 
@@ -26,18 +28,23 @@ export class UserRoutes{
       
         const controller = new UserController(registerUsers,finderUsers,findOneUser, updateUser,deleteUser, loginUser);
         
-     
-    router.get("/", controller.findAll);
-    router.get('/:id', controller.findOne)
-    
-    router.delete('/:id', controller.delete)
-    
-    router.patch('/:id', controller.update)
-
-
-    router.post('/login', controller.login)
+     router.post('/login', controller.login)
     router.post('/register', controller.register)
 
+      // middleware for public routes
+
+      //To get access to the cookes we need to install cookie-parser
+      router.use(AuthMiddleware.protect)
+
+    router.get("/", AuthMiddleware.restrictTo(UserRole.ADMIN), controller.findAll);
+    router.get('/:id', controller.findOne)
+    
+    router.delete('/:id',AuthMiddleware.restrictTo(UserRole.ADMIN), controller.delete)
+    
+    router.patch('/:id', AuthMiddleware.restrictTo(UserRole.ADMIN, UserRole.PER_OWNER) ,controller.update)
+
+
+    
 
         return router;
     }

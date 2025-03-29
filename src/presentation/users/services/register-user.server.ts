@@ -1,3 +1,4 @@
+import { encriptAdapter } from "../../../config";
 import { User } from "../../../data/postgress/models/user.model";
 
 export class RegisterUsers {
@@ -7,7 +8,7 @@ export class RegisterUsers {
        
        user.name = userData.name;
        user.email = userData.email;
-       user.password = userData.password;
+       user.password =this.encriptPassword(userData.password);
        user.status = userData.status;
        user.role = userData.role;
      try {
@@ -27,4 +28,13 @@ export class RegisterUsers {
         userData,
     }
 }
+
+
+//Method for encrypting the password
+
+private encriptPassword(password: string): string {
+
+
+    return encriptAdapter.hash(password);
+  }
 }

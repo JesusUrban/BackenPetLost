@@ -6,6 +6,7 @@ import { error } from "console";
 import { UpdateUserService } from "./services/updateUser";
 import { DeleteUserService } from "./services/delete";
 import { Login } from "./services/login";
+import { envs } from "../../config";
 
 
 export class UserController{
@@ -70,7 +71,20 @@ register =(req:Request, res:Response) =>{
 login = (req:Request, res: Response) =>{
 
  this.loginService.execute( req.body)
-.then((user) => res.status(200).json(user))
+
+// .then((user) => res.status(200).json(user))
+// .catch(err => res.status(500).json({message: err.message})) 
+
+.then(data => {
+  res.cookie('token', data.token, {
+    httpOnly: true,
+    secure: envs.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 3 * 60 * 60 * 1000
+  });
+
+  return res.status(200).json({user: data.user})
+})
 .catch(err => res.status(500).json({message: err.message})) 
 
 

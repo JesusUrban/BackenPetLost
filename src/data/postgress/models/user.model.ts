@@ -33,7 +33,7 @@ export class User extends BaseEntity {
 
     @Column("enum", {
         enum: UserRole,
-        default: UserRole.FINDER,
+        default: UserRole.PER_OWNER,
         nullable: false,
 
     })

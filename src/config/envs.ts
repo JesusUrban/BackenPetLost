@@ -4,9 +4,13 @@ import "dotenv/config";
 import {get} from "env-var"
 
 export const envs ={
-
-    JWT_SECRET: get("JWT_SECRET").required().asString(),
-
+    JWT_KEY: get("JWT_KEY").required().asString(),
+    JWT_KEY_IN: get("JWT_KEY_IN").required().asString(),
+    
+    // For the cookies
+    NODE_ENV: get('NODE_ENV').required().asString(),
+    
+    
     PORT: get("PORT").required().asPortNumber(),
     
 DATABASE_USERNAME: get("DATABASE_USERNAME").required().asString(),
